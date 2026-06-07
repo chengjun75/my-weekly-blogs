@@ -1,0 +1,79 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import FormattedDate from '../../components/FormattedDate.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths({ paginate }: { paginate: Function }) {
+  const posts = (await getCollection('blog', ({ data }) => !data.draft))
+    .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+  return paginate(posts, { pageSize: 10 });
+}
+
+const { page } = Astro.props;
+const posts = page.data;
+
+const byYear = posts.reduce<Record<number, typeof posts>>((acc, post) => {
+  const year = post.data.pubDate.getFullYear();
+  (acc[year] ??= []).push(post);
+  return acc;
+}, {});
+const years = Object.keys(byYear).map(Number).sort((a, b) => b - a);
+
+const currentPage = page.currentPage;
+const lastPage = page.lastPage;
+---
+<BaseLayout
+  title={currentPage === 1 ? '往期回顾' : `往期回顾 · 第 ${currentPage} 页`}
+  description="周度观察 — 每周更新行业观察、认知思考与随笔干货"
+>
+  <div class="container">
+    <header class="page-header">
+      <h1>往期回顾</h1>
+      <p>共 {page.total} 期，每周持续更新</p>
+    </header>
+
+    {years.map(year => (
+      <section>
+        <div class="section-header">
+          <h2>{year}</h2>
+        </div>
+        <div class="post-list">
+          {byYear[year].map(post => (
+            <a href={`/blog/${post.id}`} class="post-card">
+              <span class="post-date">
+                <FormattedDate date={post.data.pubDate} />
+              </span>
+              <div>
+                <div class="post-card-title">{post.data.title}</div>
+                <div class="post-card-desc">{post.data.description}</div>
+                {post.data.tags.length > 0 && (
+                  <div class="tags" style="margin-top: 0.4rem">
+                    {post.data.tags.map(tag => (
+                      <span class="tag">{tag}</span>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </a>
+          ))}
+        </div>
+      </section>
+    ))}
+
+    {lastPage > 1 && (
+      <nav class="pagination" aria-label="分页导航">
+        {page.url.prev ? (
+          <a href={page.url.prev} class="pagination-btn">← 较新一页</a>
+        ) : (
+          <span class="pagination-btn disabled">← 较新一页</span>
+        )}
+        <span class="pagination-info">第 {currentPage} / {lastPage} 页</span>
+        {page.url.next ? (
+          <a href={page.url.next} class="pagination-btn">较旧一页 →</a>
+        ) : (
+          <span class="pagination-btn disabled">较旧一页 →</span>
+        )}
+      </nav>
+    )}
+  </div>
+</BaseLayout>

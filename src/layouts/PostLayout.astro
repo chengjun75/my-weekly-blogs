@@ -1,0 +1,47 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import FormattedDate from '../components/FormattedDate.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  pubDate: Date;
+  updatedDate?: Date;
+  tags?: string[];
+  weekNumber?: number;
+}
+
+const { title, description, pubDate, updatedDate, tags = [], weekNumber } = Astro.props;
+---
+<BaseLayout title={title} description={description} type="article" pubDate={pubDate}>
+  <div class="container">
+    <article>
+      <a href="/blog" class="back-link">← 往期回顾</a>
+
+      <header class="article-header">
+        <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1rem;flex-wrap:wrap">
+          {weekNumber && (
+            <span class="tag" style="font-variant-numeric:tabular-nums">第 {weekNumber} 期</span>
+          )}
+          {tags.map(tag => <span class="tag">{tag}</span>)}
+        </div>
+        <h1>{title}</h1>
+        <p class="article-desc">{description}</p>
+        <div class="article-meta">
+          <time datetime={pubDate.toISOString()}>
+            <FormattedDate date={pubDate} />
+          </time>
+          {updatedDate && (
+            <span>
+              · 更新于 <time datetime={updatedDate.toISOString()}><FormattedDate date={updatedDate} /></time>
+            </span>
+          )}
+        </div>
+      </header>
+
+      <div class="prose">
+        <slot />
+      </div>
+    </article>
+  </div>
+</BaseLayout>

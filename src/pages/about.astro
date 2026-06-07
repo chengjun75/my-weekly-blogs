@@ -1,0 +1,57 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout
+  title="关于我"
+  description="关于周度观察 — 每周更新行业观察、认知思考与随笔干货"
+>
+  <div class="container">
+    <div class="about-header">
+      <div class="about-avatar">🧑‍💻</div>
+      <h1>关于我</h1>
+      <p class="subtitle">观察者 · 思考者 · 长期主义者</p>
+    </div>
+
+    <div class="prose">
+      <p>
+        你好，欢迎来到「周度观察」。这是我每周更新的个人周刊，
+        内容涵盖行业观察、认知思考与随笔干货——把值得记录的信号从噪音中筛出来。
+      </p>
+
+      <h2>每期关注的维度</h2>
+      <ul>
+        <li><strong>技术脉搏</strong>：开发工具、AI 进展、工程实践</li>
+        <li><strong>市场信号</strong>：投资思考、宏观观察、值得关注的公司</li>
+        <li><strong>阅读摘要</strong>：书、文章、播客中的有价值观点</li>
+        <li><strong>个人思考</strong>：对某个问题的当周认知更新</li>
+      </ul>
+
+      <h2>关于这份周刊</h2>
+      <p>
+        「周度观察」使用 <a href="https://astro.build">Astro</a> 构建，
+        托管在 Vercel 上。每周更新一期，每期对应一篇 Markdown 文档。
+        格式轻量，专注内容本身。
+      </p>
+      <p>
+        你可以通过 <a href="/rss.xml">RSS</a> 订阅，
+        在你喜欢的阅读器中接收每周更新。
+      </p>
+
+      <h2>联系方式</h2>
+      <p>
+        如果你有任何想法、问题或合作意向，欢迎通过以下方式联系我：
+      </p>
+      <ul>
+        <li>Email：<a href="mailto:hello@example.com">hello@example.com</a></li>
+        <li>GitHub：<a href="https://github.com" target="_blank" rel="noopener">@your-handle</a></li>
+        <li>Twitter/X：<a href="https://x.com" target="_blank" rel="noopener">@your-handle</a></li>
+      </ul>
+
+      <hr />
+
+      <p style="font-size: 0.875rem; color: var(--color-text-muted)">
+        本站所有文章除特别声明外均为原创，转载请注明出处。
+      </p>
+    </div>
+  </div>
+</BaseLayout>
