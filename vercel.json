@@ -1,9 +1,3 @@
 {
-  "framework": "astro",
-  "buildCommand": "npm run build",
-  "outputDirectory": "dist",
-  "installCommand": "npm install",
-  "env": {
-    "SITE_URL": "https://chengjun75-my-weekly-blogs.vercel.app"
-  }
+  "framework": "astro"
 }
